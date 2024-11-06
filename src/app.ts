@@ -1,17 +1,18 @@
 // src/app.ts
-import express, { Express, Request, Response, NextFunction, Router } from 'express';
-
+import express, { Express, Request, Response, NextFunction } from 'express';
+import router from './router'
 const app: Express = express();
 const port = process.env.PORT || 3000;
-const router = Router()
+
 
 // 中間件
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/', router)
 
 // 路由
 app.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Express + TypeScript Server' });
+    res.send('WELCOME TO THE BASIC EXPRESS APP');
 });
 
 
@@ -40,8 +41,8 @@ app.get('/detail', (req: Request, res: Response) => {
     res.status(200).json({
         id: 'cccc',
         name: 'DDDDD',
-        success:true,
-        email:'cdscscsdcscd'
+        success: true,
+        email: 'cdscscsdcscd'
     })
 })
 
