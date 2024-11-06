@@ -19,9 +19,10 @@ app.use(cors({
     methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
+// 限制請求數量
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
-    max: 2
+    max: 20
 }))
 app.use('/', router)
 
