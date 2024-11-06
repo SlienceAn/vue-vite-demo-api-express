@@ -30,14 +30,7 @@ app.get('/user', (req: Request, res: Response) => {
         b: 'dddd'
     })
 })
-app.get('/a', (req: Request, res: Response) => {
-    res.status(200).json({
-        id:'a',
-        c:'cddc',
-        op:'edwedwed'
-    })
-})
-app.get('/users', (req: Request, res: Response) => {
+app.get('/list', (req: Request, res: Response) => {
     res.status(200).json({
         a: 'cccc',
         b: true
@@ -45,9 +38,6 @@ app.get('/users', (req: Request, res: Response) => {
 })
 
 // 啟動服務器
-//API URL => https://vue-vite-demo-api-express-ni8zapiln-silenceans-projects.vercel.app/
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+//API URL => https://vue-vite-demo-api-express.vercel.app/
 
 export default app;
