@@ -36,8 +36,15 @@ app.get('/list', (req: Request, res: Response) => {
         b: true
     })
 })
+app.get('/detail', (req: Request, res: Response) => {
+    res.status(200).json({
+        id: 'cccc',
+        name: 'DDDDD',
+        success:true,
+        email:'cdscscsdcscd'
+    })
+})
 
 // 啟動服務器
-//API URL => https://vue-vite-demo-api-express.vercel.app/
 
 export default app;
