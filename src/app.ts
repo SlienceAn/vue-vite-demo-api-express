@@ -1,13 +1,28 @@
-// src/app.ts
 import express, { Express, Request, Response, NextFunction } from 'express';
+import helmet from 'helmet'
+import cors from 'cors'
+import rateLimit from 'express-rate-limit';
 import router from './router'
 const app: Express = express();
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 
 // 中間件
-app.use(express.json());
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet())
+//禁用 X-Powered-By
+app.use(helmet.hidePoweredBy())
+// CORS 配置
+app.use(cors({
+    origin: ['http://localhost:6969'],
+    methods: ['POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
+app.use(rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 2
+}))
 app.use('/', router)
 
 // 路由
@@ -24,28 +39,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         error: 'Something broke!'
     });
 });
-
-app.get('/user', (req: Request, res: Response) => {
-    res.status(200).json({
-        a: 'cccc',
-        b: 'dddd'
-    })
-})
-app.get('/list', (req: Request, res: Response) => {
-    res.status(200).json({
-        a: 'cccc',
-        b: true
-    })
-})
-app.get('/detail', (req: Request, res: Response) => {
-    res.status(200).json({
-        id: 'cccc',
-        name: 'DDDDD',
-        success: true,
-        email: 'cdscscsdcscd'
-    })
-})
-
-// 啟動服務器
 
 export default app;
