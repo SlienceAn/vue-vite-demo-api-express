@@ -16,7 +16,7 @@ app.use(helmet.hidePoweredBy())
 // CORS 配置
 app.use(cors({
     origin: ['http://localhost:6969'],
-    methods: ['POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
 // 限制請求數量
@@ -41,6 +41,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     });
 });
 
-app.listen(3000, () => console.log('Server is running'));
+app.listen(3001, () => console.log('Server is running'));
 
 export default app;
