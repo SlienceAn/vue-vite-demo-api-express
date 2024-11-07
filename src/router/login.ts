@@ -75,7 +75,7 @@ export const login = (req: Request, res: Response) => {
         userCheck,
         process.env.JWT_SECRET as string,
         {
-            expiresIn: process.env.JWT_EXPIRE
+            expiresIn: 600
         }
     )
     res.status(200).json({
