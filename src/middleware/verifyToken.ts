@@ -7,6 +7,7 @@ const whiteList = [
     '/register',
 ]
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.path)
     if (whiteList.includes(req.path)) {
         next()
         return
