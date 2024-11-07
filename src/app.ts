@@ -1,46 +1,23 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import helmet from 'helmet'
-import cors from 'cors'
-import rateLimit from 'express-rate-limit';
-import router from './router'
+require('dotenv').config()
+import { setNetwork } from './middleware/setNetwork'
+import { errorHandler } from './middleware/errorHandler'
+import router from './router/index'
 const app: Express = express();
-// const port = process.env.PORT || 3000;
 
+// 添加相關網路設置
+setNetwork(app)
 
-// 中間件
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(helmet())
-//禁用 X-Powered-By
-app.use(helmet.hidePoweredBy())
-// CORS 配置
-app.use(cors({
-    origin: ['http://localhost:6969'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
-// 限制請求數量
-app.use(rateLimit({
-    windowMs: 5 * 60 * 1000,
-    max: 20
-}))
+// 添加路由
 app.use('/', router)
 
-// 路由
 app.get('/', (req: Request, res: Response) => {
     res.send('WELCOME TO THE BASIC EXPRESS APP');
 });
 
-
 // 錯誤處理中間件
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(500).json({
-        success: false,
-        error: 'Something broke!'
-    });
-});
+app.use(errorHandler);
 
-app.listen(3001, () => console.log('Server is running'));
+if (process.env.NODE_ENV === 'development') app.listen(process.env.PORT, () => console.log('Server is running'));
 
 export default app;
