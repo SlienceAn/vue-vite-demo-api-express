@@ -7,19 +7,25 @@ const whiteList = [
     '/register',
 ]
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.path)
+    const token = req.headers['authorization'] || ''
     if (whiteList.includes(req.path)) {
         next()
         return
     }
+    if (!token) {
+        res.status(401).json({
+            success: false,
+            message: '驗證未提供'
+        })
+        return
+    }
     try {
-        const token = req.headers['authorization'] || ''
         jwt.verify(token, process.env.JWT_SECRET as string);
         next()
     } catch (error) {
         res.status(403).json({
             success: false,
-            message: '請重新登入驗證身分'
+            message: '驗證身分錯誤'
         })
     }
 }
