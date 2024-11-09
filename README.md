@@ -1,4 +1,6 @@
-```.
+# 專案架構
+```
+.
 ├── api
 │   └── index.ts
 ├── data_pool
@@ -20,8 +22,6 @@
 ├── package-lock.json
 ├── package.json
 ├── pnpm-lock.yaml
-├── project_structure.md
-├── project_structure.txt0
 ├── tsconfig.json
 └── vercel.json
 ```
