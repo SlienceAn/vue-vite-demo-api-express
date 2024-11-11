@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 
 // 設置白名單
 const whiteList = [
+    '/',
     '/login',
     '/register',
 ]

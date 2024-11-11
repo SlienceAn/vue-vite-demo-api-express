@@ -1,4 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
+import path from 'path'
 import dotenv from 'dotenv' //dotenv 預設是找.env 檔案
 import { setNetwork } from './middleware/setNetwork'
 import { errorHandler } from './middleware/errorHandler'
@@ -16,14 +17,13 @@ ConnectionDatabase()
 
 // 添加路由
 app.use('/', router)
-
 app.get('/', (req: Request, res: Response) => {
-    res.send('WELCOME TO THE BASIC EXPRESS APP');
+    res.sendFile(path.resolve(__dirname,'../public','index.html'));
 });
 
 // 錯誤處理中間件
 app.use(errorHandler);
-
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'development') {
     if (process.env.PORT) {
         app.listen(parseInt(process.env.PORT), '0.0.0.0', () => console.log('Server is running'));
