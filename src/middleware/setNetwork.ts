@@ -27,4 +27,15 @@ export const setNetwork = (app: Express) => {
     app.use(express.json({ limit: '10mb' }))
     //驗證token
     app.use(verifyToken)
+
+    // 檢查是否在 Vercel 環境
+    const isVercel = process.env.VERCEL || false;
+
+    // 根據環境設置 trust proxy
+    if (isVercel) {
+        console.log('Running on Vercel, enabling trust proxy');
+        app.set('trust proxy', 1);
+    } else {
+        console.log('Not running on Vercel, trust proxy disabled');
+    }
 }
