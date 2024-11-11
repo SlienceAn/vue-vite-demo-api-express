@@ -6,9 +6,6 @@ export const pusher = new Pusher({
     secret: process.env.PUSHER_SECRET!,
     cluster: process.env.PUSHER_CLUSTER!
 })
-
-
-
 // setInterval(() => {
 //     const val = Math.random();
 //     pusher.trigger('my-channel', 'message', {

@@ -1,13 +1,18 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-require('dotenv').config()
-require('./webSocket')
+import dotenv from 'dotenv' //dotenv 預設是找.env 檔案
 import { setNetwork } from './middleware/setNetwork'
 import { errorHandler } from './middleware/errorHandler'
 import router from './router/index'
+import ConnectionDatabase from '../data_pool/database'
+dotenv.config()
+require('./webSocket')
 const app: Express = express();
 
 // 添加相關網路設置
 setNetwork(app)
+//連線資料庫
+ConnectionDatabase()
+// console.log(process.env.POSTGRES_URL)
 
 // 添加路由
 app.use('/', router)

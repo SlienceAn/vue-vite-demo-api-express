@@ -1,13 +1,10 @@
 import { Router, Request, Response } from 'express'
 import { login } from './login'
-import jwt from 'jsonwebtoken'
 import { pusher } from '../webSocket/index'
+import connectionDatabase from '../../data_pool/database'
+import { addUser, modifyUser } from './controller/user'
 
 const router = Router()
-
-router.get('/authTest', (req: Request, res: Response) => {
-    res.json({ message: '身分驗證通過' })
-})
 
 router.post('/login', login)
 router.post('/ws/test', (req: Request, res: Response) => {
@@ -22,7 +19,11 @@ router.post('/ws/test', (req: Request, res: Response) => {
     } catch (error) {
         console.error(error)
     }
-
 })
+
+router.post('/addUser', addUser)
+router.put('/modifyUser', modifyUser)
+router.delete('/table/drop/users', connectionDatabase.dropUserTable)
+router.post('/table/create/users', connectionDatabase.createUserTable)
 
 export default router;
