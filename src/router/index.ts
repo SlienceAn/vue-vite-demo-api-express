@@ -1,18 +1,21 @@
 import { Router } from 'express'
 import connectionDatabase from '../../data_pool/database'
-import { addUser, modifyUser, login as loginUser } from './controller/user'
-// import { pusher } from '../webSocket/index'
-// import { login } from './login'
+import { allUser, addUser, modifyUser, deleteUser, login as loginUser } from './controller/user'
 
 const router = Router()
 
+// 登入
 router.post('/login', loginUser)
-router.post('/addUser', addUser)
-router.put('/modifyUser', modifyUser)
+router.route('/user')
+    .get(allUser)
+    .post(addUser)
+router.route('/user/:id')
+    .put(modifyUser)
+    .delete(deleteUser)
 
-
-router.delete('/table/drop/users', connectionDatabase.dropUserTable)
-router.post('/table/create/users', connectionDatabase.createUserTable)
+// table相關操作
+router.delete('/table/users', connectionDatabase.dropUserTable)
+router.post('/table/users', connectionDatabase.createUserTable)
 
 // router.post('/ws/test', (req: Request, res: Response) => {
 //     console.log('??')

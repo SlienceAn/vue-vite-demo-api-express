@@ -55,6 +55,25 @@ export const login = async (req: Request, res: Response) => {
         })
     }
 }
+export const allUser = async (req: Request, res: Response) => {
+    try {
+        const db = createKysely<Users>()
+        const users = await db
+            .selectFrom('users')
+            .select(['id', 'account', 'username','menu'])
+            .execute()
+        res.status(200).json({
+            success: true,
+            message: '查詢成功',
+            data: users
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: '撈取資料失敗' + '/' + error
+        })
+    }
+}
 
 export const addUser = async (req: Request, res: Response) => {
     try {
@@ -69,7 +88,7 @@ export const addUser = async (req: Request, res: Response) => {
                 menu
             })
             .returning(['id', 'account', 'username', 'menu'])
-            .executeTakeFirst() 
+            .executeTakeFirst()
         res.status(200).json({
             success: true,
             message: '新增成功',
@@ -86,7 +105,8 @@ export const addUser = async (req: Request, res: Response) => {
 export const modifyUser = async (req: Request, res: Response) => {
     try {
         const db = createKysely<Users>()
-        const { id, account, password, username, menu } = req.body
+        const { id } = req.params
+        const { account, password, username, menu } = req.body
         await db
             .updateTable('users')
             .set({
@@ -95,7 +115,7 @@ export const modifyUser = async (req: Request, res: Response) => {
                 username,
                 menu
             })
-            .where('id', '=', id)
+            .where('id', '=', parseInt(id))
             .execute()
         res.status(200).json({
             success: true,
@@ -105,6 +125,26 @@ export const modifyUser = async (req: Request, res: Response) => {
         res.status(500).json({
             success: false,
             message: '更新資料失敗' + ' / ' + error
+        })
+    }
+}
+
+export const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const db = createKysely<Users>()
+        const { id } = req.params
+        await db
+            .deleteFrom('users')
+            .where('id', '=', parseInt(id))
+            .execute()
+        res.status(200).json({
+            success: true,
+            message: '刪除成功',
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: '刪除資料失敗' + ' / ' + error
         })
     }
 }

@@ -11,8 +11,10 @@ export const setClient = (app: Application) => {
         res.sendFile(path.resolve(__dirname, '../../public', 'index.html'));
     });
 
-    // 處理瀏覽器自動發出的 favicon.ico 請求
-    app.get('/favicon.ico', (req: Request, res: Response) => {
+    // 處理瀏覽器自動發出的 favicon 請求
+    // 1. 一律回應 204
+    // 2. 不記錄 favicon 請求到日誌
+    app.get(/^\/favicon\.(ico|png|jpg|jpeg|gif|svg)$/, (req: Request, res: Response) => {
         res.status(204).end()
     })
 }  
