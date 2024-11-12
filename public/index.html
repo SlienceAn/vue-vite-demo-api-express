@@ -5,20 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue Vite API</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
-        .title-gradient {
+        /* 先設定全域字體 */
+        * {
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+        }
+
+        body {
+            background-color: #F9FAFB;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .description {
+            color: #4B5563;
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
-    <div class="text-center p-8">
-        <h1 class="text-5xl font-bold title-gradient mb-2">Node API Demo</h1>
-        <p class="text-gray-600 text-xl">測試api，首頁測試</p>
+<body>
+    <div class="content">
+        <h1 class="title"> Node API </h1>
+        <p class="description">測試api，首頁測試</p>
     </div>
 </body>
 
