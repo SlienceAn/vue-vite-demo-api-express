@@ -1,10 +1,10 @@
-import express, { Express } from "express"
+import express, { Application } from "express"
 import helmet from 'helmet'
 import cors from 'cors'
 import rateLimit from 'express-rate-limit';
 import verifyToken from '../middleware/verifyToken';
 
-export const setNetwork = (app: Express) => {
+export const setNetwork = (app: Application) => {
 
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }));

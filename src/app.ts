@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Application } from 'express';
 import dotenv from 'dotenv' //dotenv 預設是找.env 檔案
 import { setNetwork } from './middleware/setNetwork'
 import { setClient } from './middleware/setClient'
@@ -8,7 +8,7 @@ import ConnectionDatabase from '../data_pool/database'
 // import Pusher from './webSocket'
 dotenv.config()
 
-const app: Express = express();
+const app: Application = express();
 
 setClient(app)
 setNetwork(app)

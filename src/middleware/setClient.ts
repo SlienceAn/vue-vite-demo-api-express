@@ -1,7 +1,7 @@
-import express, { Express, Request, Response } from "express"
+import express, { Application, Request, Response } from "express"
 import path from "path";
 
-export const setClient = (app: Express) => {
+export const setClient = (app: Application) => {
 
     // 設置靜態檔案
     app.use(express.static('public'))
