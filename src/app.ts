@@ -12,7 +12,6 @@ const app: Application = express();
 
 setClient(app)
 setNetwork(app)
-
 ConnectionDatabase()
 
 app.use('/', router)
