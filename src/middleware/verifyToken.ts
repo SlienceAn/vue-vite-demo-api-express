@@ -7,6 +7,7 @@ const whiteList = [
     '/favicon.ico',
     '/login',
     '/register',
+    '/factory/user',
 ]
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'] || ''

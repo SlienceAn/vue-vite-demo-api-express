@@ -71,7 +71,7 @@ export const setNetwork = (app: Application) => {
     // 設置大小限制
     app.use(express.json({ limit: '10mb' }))
     //驗證token
-    app.use(verifyToken)
+    // app.use(verifyToken)
 
     // 檢查是否在 Vercel 環境
     const isVercel = process.env.VERCEL || false;

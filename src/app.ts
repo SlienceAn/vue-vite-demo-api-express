@@ -5,17 +5,21 @@ import { setClient } from './middleware/setClient'
 import { errorHandler } from './middleware/errorHandler'
 import router from './router/index'
 import ConnectionDatabase from '../data_pool/database'
+import { setupRoutes } from './router/routeSetup'
 // import Pusher from './webSocket'
 dotenv.config()
 
 const app: Application = express();
+const routers = express.Router()
+setupRoutes(routers)
 
 setClient(app)
 setNetwork(app)
 
 ConnectionDatabase()
 
-app.use('/', router)
+// app.use('/', router)
+app.use('/',routers)
 app.use(errorHandler);
 
 if (process.env.NODE_ENV === 'development') {
