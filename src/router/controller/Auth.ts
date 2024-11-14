@@ -11,10 +11,9 @@ export class AuthRoutes implements IRouteBuilder {
             }
         ];
     }
-
+    // 登入邏輯
     private async loginUser(req: Request, res: Response): Promise<void> {
         try {
-            // 登入邏輯
             const { email, password } = req.body;
             // ... 驗證邏輯
             console.log('驗證中....')

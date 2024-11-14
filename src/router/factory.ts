@@ -1,13 +1,7 @@
-import { IRoute } from './type'
+import { IRouteBuilder } from './type'
 import { UserRoutes } from './controller/User'
 import { AuthRoutes } from './controller/Auth'
-import { OtherRoutes } from './controller/Other'
-
-
-// 路由建造者介面
-interface IRouteBuilder {
-    getRoutes(): IRoute[];
-}
+import { DataRoutes } from './controller/Data'
 
 export class RouteFactory {
     // 創建特定類型的路由
@@ -18,8 +12,8 @@ export class RouteFactory {
                 return new UserRoutes();
             case 'auth':
                 return new AuthRoutes();
-            case 'other':
-                return new OtherRoutes();    
+            case 'data':
+                return new DataRoutes();
             default:
                 throw new Error(`Route type ${type} not supported`);
         }

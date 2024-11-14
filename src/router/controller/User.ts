@@ -27,41 +27,37 @@ export class UserRoutes implements IRouteBuilder {
             }
         ];
     }
-
+    // 獲取所有用戶邏輯
     private async allUser(req: Request, res: Response): Promise<void> {
         try {
-            // 獲取所有用戶邏輯
             res.json({ users: [] });
         } catch (error) {
             res.status(500).json({ error });
         }
     }
-
+    // 添加用戶邏輯
     private async addUser(req: Request, res: Response): Promise<void> {
         try {
             const userData = req.body;
-            // 添加用戶邏輯
             res.status(201).json({ message: 'User created' });
         } catch (error) {
             res.status(400).json({ error });
         }
     }
-
+    // 修改用戶邏輯
     private async modifyUser(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
             const userData = req.body;
-            // 修改用戶邏輯
             res.json({ message: 'User updated' });
         } catch (error) {
             res.status(400).json({ error });
         }
     }
-
+    // 刪除用戶邏輯
     private async deleteUser(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            // 刪除用戶邏輯
             res.json({ message: 'User deleted' });
         } catch (error) {
             res.status(400).json({ error });

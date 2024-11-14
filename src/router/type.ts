@@ -11,7 +11,7 @@ export type RouteHandler = (
 export interface IRoute {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
-    handler: any;
+    handler: RouteHandler;
 }
 
 // 路由建造者介面
