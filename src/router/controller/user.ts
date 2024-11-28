@@ -2,17 +2,35 @@ import { Request, Response } from 'express'
 import { createKysely } from '@vercel/postgres-kysely'
 import dataPool from '../../../data_pool/index'
 import jwt from 'jsonwebtoken'
+import Pusher from 'pusher'
 interface Users {
     users: {
         id?: number
         account: string    // 登入帳號
         password: string   // 密碼 (實際專案密碼必須雜湊)
         username: string   // 使用者名稱
-        menu: number[]     // 使用 JSONB 存選單權限
+        menu: number[] | string    // 使用 JSONB 存選單權限
         created_at?: Date
     }
 }
-
+// pusher
+const triggerUpdateUserList = () => {
+    const pusher = new Pusher({
+        appId: process.env.PUSHER_APPID!,
+        key: process.env.PUSHER_KEY!,
+        secret: process.env.PUSHER_SECRET!,
+        cluster: process.env.PUSHER_CLUSTER!
+    })
+    try {
+        pusher.trigger('Setting', 'update-event', {
+            success: true,
+            message: '撈取成功',
+            data: []
+        })
+    } catch (error) {
+        console.log('pusher error ', error)
+    }
+}
 export const login = async (req: Request, res: Response) => {
     const { account: acc, password: psw } = req.body
     try {
@@ -38,7 +56,9 @@ export const login = async (req: Request, res: Response) => {
                 process.env.JWT_SECRET as string,
                 { expiresIn: parseInt(process.env.JWT_EXPIRE!) }
             )
-            users.menu.forEach(el => menu.push(routerList[el - 1]))
+            if (Array.isArray(users.menu)) {
+                users.menu.forEach((el: number) => menu.push(routerList[el - 1]))
+            }
             res.status(200).json({
                 token,
                 success: true,
@@ -60,8 +80,12 @@ export const allUser = async (req: Request, res: Response) => {
         const db = createKysely<Users>()
         const users = await db
             .selectFrom('users')
-            .select(['id', 'account', 'username','menu'])
+            .select(['id', 'account', 'username', 'menu', 'created_at'])
             .execute()
+        
+        // 測試觸發更新資料    
+        triggerUpdateUserList()
+        
         res.status(200).json({
             success: true,
             message: '查詢成功',
@@ -76,6 +100,7 @@ export const allUser = async (req: Request, res: Response) => {
 }
 
 export const addUser = async (req: Request, res: Response) => {
+    console.log(req.body)
     try {
         const db = createKysely<Users>()
         const { account, password, username, menu } = req.body
@@ -85,7 +110,7 @@ export const addUser = async (req: Request, res: Response) => {
                 account,
                 password,
                 username,
-                menu
+                menu: JSON.stringify(menu) // JSONB[]轉成數字傳送...待研究
             })
             .returning(['id', 'account', 'username', 'menu'])
             .executeTakeFirst()

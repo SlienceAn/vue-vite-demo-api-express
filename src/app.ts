@@ -5,7 +5,7 @@ import { setClient } from './middleware/setClient'
 import { errorHandler } from './middleware/errorHandler'
 import router from './router/index'
 import ConnectionDatabase from '../data_pool/database'
-// import Pusher from './webSocket'
+
 dotenv.config()
 
 const app: Application = express();
