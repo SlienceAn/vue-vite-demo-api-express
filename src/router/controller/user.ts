@@ -22,11 +22,7 @@ const triggerUpdateUserList = () => {
         cluster: process.env.PUSHER_CLUSTER!
     })
     try {
-        pusher.trigger('Setting', 'update-event', {
-            success: true,
-            message: '撈取成功',
-            data: []
-        })
+        pusher.trigger('Setting', 'update-event', null)
     } catch (error) {
         console.log('pusher error ', error)
     }
@@ -82,10 +78,7 @@ export const allUser = async (req: Request, res: Response) => {
             .selectFrom('users')
             .select(['id', 'account', 'username', 'menu', 'created_at'])
             .execute()
-        
-        // 測試觸發更新資料    
         triggerUpdateUserList()
-        
         res.status(200).json({
             success: true,
             message: '查詢成功',
@@ -100,7 +93,6 @@ export const allUser = async (req: Request, res: Response) => {
 }
 
 export const addUser = async (req: Request, res: Response) => {
-    console.log(req.body)
     try {
         const db = createKysely<Users>()
         const { account, password, username, menu } = req.body
@@ -114,6 +106,7 @@ export const addUser = async (req: Request, res: Response) => {
             })
             .returning(['id', 'account', 'username', 'menu'])
             .executeTakeFirst()
+            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '新增成功',
@@ -142,6 +135,7 @@ export const modifyUser = async (req: Request, res: Response) => {
             })
             .where('id', '=', parseInt(id))
             .execute()
+            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '更新成功',
@@ -162,6 +156,7 @@ export const deleteUser = async (req: Request, res: Response) => {
             .deleteFrom('users')
             .where('id', '=', parseInt(id))
             .execute()
+            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '刪除成功',
