@@ -13,8 +13,15 @@ interface Users {
         created_at?: Date
     }
 }
+const getAllUser = async () => {
+    const db = createKysely<Users>()
+    return await db
+        .selectFrom('users')
+        .select(['id', 'account', 'username', 'menu', 'created_at'])
+        .execute()
+}
 // pusher
-const triggerUpdateUserList = () => {
+const triggerUpdateUserList = async () => {
     const pusher = new Pusher({
         appId: process.env.PUSHER_APPID!,
         key: process.env.PUSHER_KEY!,
@@ -22,7 +29,7 @@ const triggerUpdateUserList = () => {
         cluster: process.env.PUSHER_CLUSTER!
     })
     try {
-        pusher.trigger('Setting', 'update-event', null)
+        pusher.trigger('Setting', 'update-event', await getAllUser())
     } catch (error) {
         console.log('pusher error ', error)
     }
@@ -73,12 +80,8 @@ export const login = async (req: Request, res: Response) => {
 }
 export const allUser = async (req: Request, res: Response) => {
     try {
-        const db = createKysely<Users>()
-        const users = await db
-            .selectFrom('users')
-            .select(['id', 'account', 'username', 'menu', 'created_at'])
-            .execute()
-        triggerUpdateUserList()
+        const users = await getAllUser()
+        console.log(users)
         res.status(200).json({
             success: true,
             message: '查詢成功',
@@ -106,12 +109,12 @@ export const addUser = async (req: Request, res: Response) => {
             })
             .returning(['id', 'account', 'username', 'menu'])
             .executeTakeFirst()
-            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '新增成功',
             data: users
         })
+        triggerUpdateUserList()
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -135,11 +138,11 @@ export const modifyUser = async (req: Request, res: Response) => {
             })
             .where('id', '=', parseInt(id))
             .execute()
-            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '更新成功',
         })
+        triggerUpdateUserList()
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -156,11 +159,11 @@ export const deleteUser = async (req: Request, res: Response) => {
             .deleteFrom('users')
             .where('id', '=', parseInt(id))
             .execute()
-            triggerUpdateUserList()
         res.status(200).json({
             success: true,
             message: '刪除成功',
         })
+        triggerUpdateUserList()
     } catch (error) {
         res.status(500).json({
             success: false,
