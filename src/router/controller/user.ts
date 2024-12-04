@@ -18,6 +18,7 @@ const getAllUser = async () => {
     return await db
         .selectFrom('users')
         .select(['id', 'account', 'username', 'menu', 'created_at'])
+        .orderBy('created_at')
         .execute()
 }
 // pusher
@@ -31,7 +32,7 @@ const triggerUpdateUserList = async () => {
     try {
         pusher.trigger('Setting', 'update-event', await getAllUser())
     } catch (error) {
-        console.log('pusher error ', error)
+        console.error('pusher error ', error)
     }
 }
 export const login = async (req: Request, res: Response) => {
@@ -81,7 +82,6 @@ export const login = async (req: Request, res: Response) => {
 export const allUser = async (req: Request, res: Response) => {
     try {
         const users = await getAllUser()
-        console.log(users)
         res.status(200).json({
             success: true,
             message: '查詢成功',
@@ -134,7 +134,7 @@ export const modifyUser = async (req: Request, res: Response) => {
                 account,
                 password,
                 username,
-                menu
+                menu: JSON.stringify(menu) // JSONB[]轉成數字傳送...待研究
             })
             .where('id', '=', parseInt(id))
             .execute()

@@ -1,22 +1,22 @@
 export default {
     // Router List
     routerList: [{
-        path: '/Main/Information',
+        path: '/Information',
         name: '主控台',
         icon: 'mti-Info'
     },
     {
-        path: '/Main/Query',
+        path: '/Query',
         name: '設備查詢',
         icon: 'mti-QueryStats'
     },
     {
-        path: '/Main/InspectionForm',
+        path: '/InspectionForm',
         name: '巡檢表單',
         icon: 'mti-Description'
     },
     {
-        path: '/Main/Setting',
+        path: '/Setting',
         name: '帳戶管理',
         icon: 'mti-Admin'
     }],
