@@ -3,7 +3,7 @@ export default {
     routerList: [
         {
             path: '/Information',
-            name: '主控台',
+            name: 'Information',
             meta: {
                 title: '主控台',
                 icon: 'mti-Info',
@@ -12,7 +12,7 @@ export default {
         },
         {
             path: '/Query',
-            name: '設備查詢',
+            name: 'Query',
             meta: {
                 title: '設備查詢',
                 icon: 'mti-QueryStats',
@@ -21,7 +21,7 @@ export default {
         },
         {
             path: '/InspectionForm',
-            name: '巡檢表單',
+            name: 'InspectionForm',
             meta: {
                 title: '巡檢表單',
                 icon: 'mti-Description',
@@ -30,7 +30,7 @@ export default {
         },
         {
             path: '/Setting',
-            name: '帳戶管理',
+            name: 'Setting',
             meta: {
                 title: '帳戶管理',
                 icon: 'mti-Admin',
