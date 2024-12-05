@@ -1,25 +1,43 @@
 export default {
     // Router List
-    routerList: [{
-        path: '/Information',
-        name: '主控台',
-        icon: 'mti-Info'
-    },
-    {
-        path: '/Query',
-        name: '設備查詢',
-        icon: 'mti-QueryStats'
-    },
-    {
-        path: '/InspectionForm',
-        name: '巡檢表單',
-        icon: 'mti-Description'
-    },
-    {
-        path: '/Setting',
-        name: '帳戶管理',
-        icon: 'mti-Admin'
-    }],
+    routerList: [
+        {
+            path: '/Information',
+            name: '主控台',
+            meta: {
+                title: '主控台',
+                icon: 'mti-Info',
+                hide: false
+            }
+        },
+        {
+            path: '/Query',
+            name: '設備查詢',
+            meta: {
+                title: '設備查詢',
+                icon: 'mti-QueryStats',
+                hide: false
+            }
+        },
+        {
+            path: '/InspectionForm',
+            name: '巡檢表單',
+            meta: {
+                title: '巡檢表單',
+                icon: 'mti-Description',
+                hide: false
+            }
+        },
+        {
+            path: '/Setting',
+            name: '帳戶管理',
+            meta: {
+                title: '帳戶管理',
+                icon: 'mti-Admin',
+                hide: false
+            }
+        }
+    ],
     // User List
     userList: [
         {
