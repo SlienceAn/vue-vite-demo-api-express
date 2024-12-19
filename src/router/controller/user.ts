@@ -3,6 +3,8 @@ import { createKysely } from '@vercel/postgres-kysely'
 import dataPool from '../../../data_pool/index'
 import jwt from 'jsonwebtoken'
 import Pusher from 'pusher'
+
+// let setIntervals: ReturnType<typeof setInterval> = null
 interface Users {
     users: {
         id?: number
@@ -21,7 +23,7 @@ const getAllUser = async () => {
         .orderBy('created_at')
         .execute()
 }
-// pusher
+// pusher 取得最新使用者資料
 const triggerUpdateUserList = async () => {
     const pusher = new Pusher({
         appId: process.env.PUSHER_APPID!,
@@ -30,7 +32,23 @@ const triggerUpdateUserList = async () => {
         cluster: process.env.PUSHER_CLUSTER!
     })
     try {
-        pusher.trigger('Setting', 'update-event', await getAllUser())
+        pusher.trigger('setting', 'update', await getAllUser())
+    } catch (error) {
+        console.error('pusher error ', error)
+    }
+}
+// 事件通知或最新消息
+const triggerNotification = () => {
+    const pusher = new Pusher({
+        appId: process.env.PUSHER_APPID!,
+        key: process.env.PUSHER_KEY!,
+        secret: process.env.PUSHER_SECRET!,
+        cluster: process.env.PUSHER_CLUSTER!
+    })
+    try {
+        pusher.trigger('notification', 'update', {
+            message: '最新通知,' + new Date().toISOString()
+        })
     } catch (error) {
         console.error('pusher error ', error)
     }
@@ -71,6 +89,7 @@ export const login = async (req: Request, res: Response) => {
                 usersname: users.username,
                 menu
             })
+            triggerNotification()
         }
     } catch (error) {
         res.status(401).json({
