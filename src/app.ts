@@ -1,12 +1,13 @@
-import express, { Application } from 'express';
+import 'module-alias/register' // 模塊別名(before any code )
 import dotenv from 'dotenv' //dotenv 預設是找.env 檔案
+dotenv.config()
+import express, { Application } from 'express';
+import './type'
+import ConnectionDatabase from '@data/database'
 import { setNetwork } from './middleware/setNetwork'
 import { setClient } from './middleware/setClient'
 import { errorHandler } from './middleware/errorHandler'
 import router from './router/index'
-import ConnectionDatabase from '../data_pool/database'
-
-dotenv.config()
 
 const app: Application = express();
 

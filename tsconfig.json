@@ -12,12 +12,14 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "@/*": ["src/*"],
+      "@data/*":["data_pool/*"],
     }
   },
   "include": [
     "src/**/*",
-    "env.d.ts", 
+    "env.d.ts",
   ],
   "exclude": ["node_modules"]
 }
