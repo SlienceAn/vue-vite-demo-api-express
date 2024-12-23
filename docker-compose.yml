@@ -1,0 +1,66 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # express應用服務
+  backend:
+    # build:
+      # context: . 指定 Dockerfile 所在的目錄
+      # dockerfile: Dockerfile 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
+    image: express-service:latest
+    # 容器名稱設定，方便識別和管理
+    container_name: express-service
+
+    # 端口映射：主機端口:容器端口
+    ports:
+      - "3000:3000"
+      
+    # 設定工作目錄掛載，這樣本地的程式碼改動會即時反映在容器中
+    volumes:
+      - ./dist:/usr/src/app/dist
+      - ./node_modules:/usr/src/app/node_modules
+
+    # 環境變數設定
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+      # JWT 相關設定，使用 .env 文件中的值
+      - JWT_EXPIRE=${JWT_EXPIRE}
+      - JWT_SECRET=${JWT_SECRET}
+      # Pusher 相關設定，使用 .env 文件中的值
+      - PUSHER_APPID=${PUSHER_APPID}
+      - PUSHER_KEY=${PUSHER_KEY}
+      - PUSHER_SECRET=${PUSHER_SECRET}
+      - PUSHER_CLUSTER=${PUSHER_CLUSTER}
+      # vercel postgres 相關設定，使用 .env 文件中的值
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PRISMA_URL=${POSTGRES_PRISMA_URL}
+      - POSTGRES_URL=${POSTGRES_URL}
+      - POSTGRES_URL_NON_POOLING=${POSTGRES_URL_NON_POOLING}
+      - POSTGRES_URL_NO_SSL=${POSTGRES_URL_NO_SSL}
+      - POSTGRES_USER=${POSTGRES_USER}
+
+    # 設定容器的重啟策略( no | always | unless-stopped | on-failure[:max-retries] )
+    restart: unless-stopped
+
+    # 設定網路模式
+    networks:
+      - app-network
+  # vue應用服務    
+  frontend:
+    image: vue-vite-demo:latest
+    container_name: vue-vite-demo
+    ports:
+      - "6969:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+# 定義網路配置
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  node_modules:
