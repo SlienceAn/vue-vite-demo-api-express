@@ -6,8 +6,9 @@
   "scripts": {
     "start": "ts-node src/app.ts",
     "serve": "nodemon src/app.ts",
-    "build": "rimraf dist && tsc",
-    "vercel-build": "echo hello"
+    "build": "rimraf dist && tsc && tsc-alias",
+    "vercel-build": "echo hello",
+    "prod": "nodemon dist/src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "kysely": "^0.27.4",
+    "module-alias": "^2.2.3",
     "pusher": "^5.2.0",
     "ws": "^8.18.0"
   },
@@ -36,15 +38,15 @@
     "@types/ws": "^8.5.13",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
-    "module-alias": "^2.2.3",
     "nodemon": "^3.1.7",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
     "typescript": "^4.9.5"
   },
-  "_moduleAliases":{
-    "@root":".",
-    "@":"src",
-    "@data":"data_pool"
+  "_moduleAliases": {
+    "@root": ".",
+    "@": "src",
+    "@data": "data_pool"
   }
 }
