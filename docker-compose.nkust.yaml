@@ -1,0 +1,90 @@
+# Docker Compose 檔案格式版本
+version: '3.8'
+
+# 啟動 nodered-red 的 docker 指令
+  # docker pull nodered/node-red
+  # docker run -it -p 1880:1880 -v node_red_data:/data --name nodered nodered/node-red
+
+# 啟動 mysql 的 docker 指令
+  # docker pull mysql
+  # docker run -d --name my-sql -e MYSQL_ROOT_PASSWORD=123 -v mysql_data:/var/lib/mysql mysql
+  # docker exec -it mysql mysql -u root -p => 進入mysql容器然後輸入SQL指令新增testdb資料庫
+
+services:
+  # 建立 MySQL 數據庫服務
+  mysql:
+    image: mysql
+    # 設定容器名稱為 mysql
+    container_name: mysql
+    # 將容器的 3306 端口映射到主機的 3306 端口
+    ports:
+      - "3306:3306"
+    # 設定 MySQL 環境變量(使用者密碼 & 使用的資料庫)
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=testdb
+    # 將 mysql_data volume 掛載到容器的 /var/lib/mysql 目錄以持久化數據
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # 容器會自動重啟，除非手動停止
+    restart: unless-stopped
+    # 加入 nodered-services 網路以便與其他服務通信
+    networks:
+      - nodered-services
+  # 建立 Node-RED 服務，用於流程自動化和可視化編程
+
+  nodered:
+    image: docker.io/nodered/node-red
+    # 設定容器名稱為 nodered
+    container_name: nodered
+    # 將容器的 1880 端口映射到主機的 1880 端口
+    ports:
+      - "1880:1880"
+    # 將 node_red_data volume 掛載到容器的 /data 目錄以持久化數據
+    volumes:
+      - node_red_data:/data
+    # 容器會自動重啟，除非手動停止
+    restart: unless-stopped
+    # 確保 MySQL 容器先啟動
+    depends_on:
+      - mysql
+    # 加入 nodered-services 網路以便與其他服務通信
+    networks:
+      - nodered-services
+
+  # 建立 Ngrok 服務，用於提供外網訪問
+  ngrok:
+    # 使用最新版本的官方 Ngrok 映像檔
+    image: ngrok/ngrok:latest
+    # 設定容器名稱為 ngrok
+    container_name: ngrok
+    # 將容器的 4040 端口映射到主機的 4040 端口，用於訪問 Ngrok 的 web 界面
+    ports:
+      - "4040:4040"
+    # 從環境變量中讀取 Ngrok 的認證 token
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    # 使用指定的 ngrok 域名 (incredibly-free-louse.ngrok-free.app) 將外部流量轉發到內部的 nodered 服務的 1880 端口
+    command: http --domain=incredibly-free-louse.ngrok-free.app nodered:1880
+    # 加入 nodered-services 網路以便與其他服務通信
+    networks:
+      - nodered-services
+    # 確保 Node-RED 容器先啟動
+    depends_on:
+      - nodered
+
+# 定義使用的網路
+networks:
+  # 創建名為 nodered-services 的網路
+  nodered-services:
+    # 使用 bridge 驅動，允許同一網路中的容器互相通信
+    driver: bridge
+
+# 定義持久化存儲卷
+volumes:
+  # MySQL 的數據卷，使用外部已存在的 volume
+  mysql_data:
+    external: true
+  # Node-RED 的數據卷，使用外部已存在的 volume
+  node_red_data:
+    external: true
