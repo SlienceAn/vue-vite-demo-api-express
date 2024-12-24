@@ -1,12 +1,11 @@
-# docker-compose.yml
 version: '3.8'
 
 services:
   # express應用服務
   backend:
     # build:
-      # context: . 指定 Dockerfile 所在的目錄
-      # dockerfile: Dockerfile 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
+    # context: . 指定 Dockerfile 所在的目錄
+    # dockerfile: Dockerfile 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
     image: express-service:latest
     # 容器名稱設定，方便識別和管理
     container_name: express-service
@@ -14,7 +13,7 @@ services:
     # 端口映射：主機端口:容器端口
     ports:
       - "3000:3000"
-      
+
     # 設定工作目錄掛載，這樣本地的程式碼改動會即時反映在容器中
     volumes:
       - ./dist:/usr/src/app/dist
@@ -57,6 +56,7 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
 
 # 定義網路配置
 networks:
