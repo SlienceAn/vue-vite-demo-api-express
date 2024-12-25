@@ -1,3 +1,4 @@
+import item from './itemData'
 export default {
     // Router List
     routerList: [
@@ -38,41 +39,6 @@ export default {
             }
         }
     ],
-    // User List
-    userList: [
-        {
-            acc: 'pm',
-            psw: '123',
-            userName: 'PM',
-            menu: [1, 2, 4]
-        },
-        {
-            acc: 'rd',
-            psw: '123',
-            userName: 'RD',
-            menu: [1, 2, 3, 4]
-        },
-        {
-            acc: 'test',
-            psw: '123',
-            userName: 'Test',
-            menu: [1, 2]
-        },
-        {
-            acc: 'guest',
-            psw: '123',
-            userName: '訪客',
-            menu: [1]
-        },
-        {
-            acc: 'admin',
-            psw: 'admin',
-            userName: '管理員',
-            menu: [1, 2, 3, 4]
-        }
-    ],
-    // Fake list
-    testList: [
-
-    ]
+    data: item?.data,
+    city: item?.city
 }
