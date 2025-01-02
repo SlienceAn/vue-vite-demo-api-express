@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express'
 import { IRouteBuilder, IRoute } from '../type'
-
+import db from '../../db'
 export class UserRoutes implements IRouteBuilder {
     getRoutes(): IRoute[] {
         return [
@@ -30,6 +30,7 @@ export class UserRoutes implements IRouteBuilder {
     // 獲取所有用戶邏輯
     private async allUser(req: Request, res: Response): Promise<void> {
         try {
+            const data = await db.query('SQL Syntax')
             res.json({ users: [] });
         } catch (error) {
             res.status(500).json({ error });
@@ -39,6 +40,7 @@ export class UserRoutes implements IRouteBuilder {
     private async addUser(req: Request, res: Response): Promise<void> {
         try {
             const userData = req.body;
+            const data = await db.query('SQL Syntax')
             res.status(201).json({ message: 'User created' });
         } catch (error) {
             res.status(400).json({ error });
@@ -49,6 +51,7 @@ export class UserRoutes implements IRouteBuilder {
         try {
             const { id } = req.params;
             const userData = req.body;
+            const data = await db.query('SQL Syntax')
             res.json({ message: 'User updated' });
         } catch (error) {
             res.status(400).json({ error });
@@ -58,6 +61,7 @@ export class UserRoutes implements IRouteBuilder {
     private async deleteUser(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
+            const data = await db.query('SQL Syntax')
             res.json({ message: 'User deleted' });
         } catch (error) {
             res.status(400).json({ error });
