@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { RouteFactory } from './factory'
+import { Request, Response, NextFunction } from 'express'
 
 // 設置路由
 export const setupRoutes = (router: Router): Router => {
@@ -11,8 +12,12 @@ export const setupRoutes = (router: Router): Router => {
 
     // 註冊所有路由
     [...userRoutes, ...authRoutes, ...dataRoutes].forEach(route => {
-        router[route.method](route.path, route.handler)
+        if (route.middlewares) {
+            router[route.method](route.path, ...route.middlewares, route.handler)
+        } else {
+            router[route.method](route.path, route.handler)
+        }
     })
-
+    console.log([...userRoutes, ...authRoutes, ...dataRoutes])
     return router
 }

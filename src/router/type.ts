@@ -12,6 +12,7 @@ export interface IRoute {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
     handler: RouteHandler;
+    middlewares?: any[]
 }
 
 // 路由建造者介面
