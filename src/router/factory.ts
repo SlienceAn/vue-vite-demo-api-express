@@ -3,6 +3,7 @@ import { UserRoutes } from './controller/User'
 import { AuthRoutes } from './controller/Auth'
 import { DataRoutes } from './controller/Data'
 
+// 路由工廠
 export class RouteFactory {
     // 創建特定類型的路由
     static createRoutes(type: string): IRouteBuilder {
