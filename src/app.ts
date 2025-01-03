@@ -3,15 +3,14 @@ import dotenv from 'dotenv' //dotenv 預設是找.env 檔案
 import { setNetwork } from './middleware/setNetwork'
 import { setClient } from './middleware/setClient'
 import { errorHandler } from './middleware/errorHandler'
-import router from './router/index'
 import ConnectionDatabase from '../data_pool/database'
-import { setupRoutes } from './router/routeSetup'
-// import Pusher from './webSocket'
+import { routeSetup } from './router/routeFactory'
 dotenv.config()
 
 const app: Application = express();
 const routers = express.Router()
-setupRoutes(routers)
+
+routeSetup(routers)
 
 setClient(app)
 setNetwork(app)

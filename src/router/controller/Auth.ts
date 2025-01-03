@@ -9,14 +9,8 @@ export class AuthRoutes implements IRouteBuilder {
                 path: '/login',
                 method: 'post',
                 handler: this.loginUser,
-                middlewares: [validator('user')]
+                middlewares: [validator('login')]
             },
-            {
-                path: '/logins',
-                method: 'post',
-                handler: this.loginUser,
-                middlewares: [validator('product')]
-            }
         ];
     }
     // 登入邏輯
@@ -25,6 +19,7 @@ export class AuthRoutes implements IRouteBuilder {
             const { email, password } = req.body;
             // 驗證邏輯
             console.log('驗證邏輯處理')
+            // 資料庫查詢
             const data = await db.query('SQL Syntax')
             // 驗證通過回傳
             res.json({ message: 'Login successful', });

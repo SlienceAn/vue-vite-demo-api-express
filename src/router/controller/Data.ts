@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { IRoute, IRouteBuilder } from '../type'
 import db from '../../db'
+import validator from '../validator'
 export class DataRoutes implements IRouteBuilder {
     getRoutes(): IRoute[] {
         return [
@@ -12,17 +13,20 @@ export class DataRoutes implements IRouteBuilder {
             {
                 path: '/data',
                 method: 'post',
-                handler: this.addData
+                handler: this.addData,
+                middlewares:[validator('data')]
             },
             {
                 path: '/data/:id',
                 method: 'put',
-                handler: this.modifyData
+                handler: this.modifyData,
+                middlewares:[validator('data')]
             },
             {
                 path: '/data/:id',
                 method: 'delete',
-                handler: this.deleteData
+                handler: this.deleteData,
+                middlewares:[validator('data')]
             }
         ]
     }

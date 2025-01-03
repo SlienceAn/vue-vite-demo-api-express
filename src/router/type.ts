@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction, RequestHandler } from 'express'
 
 // 定義正確的請求處理器型別
 export type RouteHandler = (
@@ -12,7 +12,7 @@ export interface IRoute {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
     handler: RouteHandler;
-    middlewares?: any[]
+    middlewares?: RequestHandler[]
 }
 
 // 路由建造者介面

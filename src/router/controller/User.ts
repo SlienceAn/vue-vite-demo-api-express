@@ -2,28 +2,32 @@
 import { Request, Response } from 'express'
 import { IRouteBuilder, IRoute } from '../type'
 import db from '../../db'
+import validator from '../validator'
 export class UserRoutes implements IRouteBuilder {
     getRoutes(): IRoute[] {
         return [
             {
                 path: '/user',
                 method: 'get',
-                handler: this.allUser
+                handler: this.allUser,
             },
             {
                 path: '/user',
                 method: 'post',
-                handler: this.addUser
+                handler: this.addUser,
+                middlewares: [validator('user')]
             },
             {
                 path: '/user/:id',
                 method: 'put',
-                handler: this.modifyUser
+                handler: this.modifyUser,
+                middlewares: [validator('user')]
             },
             {
                 path: '/user/:id',
                 method: 'delete',
-                handler: this.deleteUser
+                handler: this.deleteUser,
+                middlewares: [validator('user')]
             }
         ];
     }
