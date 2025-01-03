@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 // 定義驗證策略的集合
 // 每個物件代表一個驗證策略，包含該策略下的不同驗證規則
-const validationRules: any = {
+const validationRules = {
     // login 驗證策略
     login: {
         // 每個屬性都是一個具體的驗證規則
@@ -24,19 +24,22 @@ const validationRules: any = {
     },
 };
 
-// Validator 類作為策略的上下文(Context)
+// 從 validationRules 推導出型別
+type ValidationRules = typeof validationRules
+type ValidationType = keyof ValidationRules
+
 // 負責持有並執行具體的驗證策略
 class Validator {
     // 儲存當前使用的驗證策略
-    private rules: any
+    private rules: ValidationRules[ValidationType]
     // 通過建構函數注入具體的驗證策略
-    constructor(type: any) {
+    constructor(type: ValidationType) {
         this.rules = validationRules[type]
     }
     // 執行驗證策略的方法
     public validate(data: any) {
         const errors = []
-         // 遍歷當前策略中的所有規則
+        // 遍歷當前策略中的所有規則
         const entries = Object.entries(this.rules) as [string, any]
         for (const [field, rule] of entries) {
             // 執行每個具體的驗證規則
@@ -52,7 +55,7 @@ class Validator {
 }
 
 // 驗證中間件
-const validateMiddleware = (type: string) => {
+const validateMiddleware = (type: ValidationType) => {
     return (req: Request, res: Response, next: NextFunction) => {
         // 創建驗證器實例，並注入對應的驗證策略
         const validator = new Validator(type)
