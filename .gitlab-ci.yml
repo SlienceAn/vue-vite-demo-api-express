@@ -37,10 +37,14 @@ image: docker:latest
 services: 
   - docker:dind
 
+variables:
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375
+  
 build_and_push:
   script:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker-compose build
     - docker-compose push
   only:
-    -master  
+    - master  
