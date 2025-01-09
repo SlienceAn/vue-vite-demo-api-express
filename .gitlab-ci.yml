@@ -59,7 +59,8 @@ build:
   script:
     - docker images
     - docker-compose build
-    - echo "Docker Build !!!"    
+    - echo "Docker Build !!!"   
+    - docker images 
   only:
     - master 
 push:
