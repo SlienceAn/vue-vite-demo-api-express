@@ -1,10 +1,18 @@
 stages:
-  - build
-  - deploy
   - test
+  - dockerLogin
 
-dev-build:
-  stage: build
+variables:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_USERNAME: $DOCKERHUB_USERNAME 
+  DOCKER_PASSWORD: $DOCKERHUB_PASSWORD  
+
+before_script:
+  - echo "列出全部變數"
+  - printenv | sort
+
+test:
+  stage: test
   only:
     - master
   script:
@@ -14,20 +22,12 @@ dev-build:
     - echo "測試群組變數 ---> $POSTGRES_URL_NO_SSL"
     - echo "測試群組變數 ---> $POSTGRES_URL_NON_POOLING"
     - echo "測試群組變數 ---> $POSTGRES_URL"
-
-dev-deploy:
-  stage: deploy
+    
+docker-login:
+  stage: dockerLogin
   only:
     - master
   script:
-    - echo "測試 dev deploy ***"
-    - echo "列出全部變數"
-    - printenv
-
-dev-test:
-  stage: test
-  only:
-    - master
-  script:
-    - echo "測試 dev testing !!!"
-  
+    - echo "登入 Docker Hub"
+    - echo "$DOCKER_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_USERNAME" --password-stdin
+    - echo "推送鏡像到 Docker Hub"
