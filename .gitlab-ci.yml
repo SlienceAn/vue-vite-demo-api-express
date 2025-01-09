@@ -36,15 +36,31 @@ image: docker:latest
 
 services: 
   - docker:dind
+stages: 
+  - login
+  - build
+  - push
 
 variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
 
-build_and_push:
-  script:
+login:
+  stage: login
+  script: 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker-compose build
-    - docker-compose push
+    - echo "Docker Hub 登入"
   only:
     - master  
+build:
+  script:
+    - docker-compose build
+    - echo "Docker Build !!!"    
+  only:
+    - master 
+push:
+  script:
+    - docker-compose push beast964089/vue-vite-demo-api-express:latest
+    - echo "Docker Push !!!"
+  only:
+    - master

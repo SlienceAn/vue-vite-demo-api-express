@@ -6,9 +6,9 @@ services:
     build:
       context: . # 指定 Dockerfile 所在的目錄
       dockerfile: Dockerfile # 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
-    image: beast964089/vue-vite-demo-api-express:latest
+
     # 端口映射：主機端口:容器端口
-    ports: 
+    ports:
       - "3000:3000"
     # 環境變數設定
     environment:
