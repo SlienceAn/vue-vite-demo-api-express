@@ -1,33 +1,46 @@
-stages:
-  - test
-  - dockerLogin
+# stages:
+#   - test
+#   - dockerLogin
 
-variables:
-  DOCKER_REGISTRY: docker.io
-  DOCKER_USERNAME: $DOCKERHUB_USERNAME 
-  DOCKER_PASSWORD: $DOCKERHUB_PASSWORD  
+# variables:
+#   DOCKER_REGISTRY: docker.io
+#   DOCKER_USERNAME: $DOCKERHUB_USERNAME 
+#   DOCKER_PASSWORD: $DOCKERHUB_PASSWORD  
 
-before_script:
-  - echo "列出全部變數"
-  - printenv | sort
+# before_script:
+#   - echo "列出全部變數"
+#   - printenv | sort
 
-test:
-  stage: test
-  only:
-    - master
-  script:
-    - echo "測試 dev build !!!"
-    - echo "測試環境變數 ---> $POSTGRES_DATABASE"
-    - echo "測試群組變數 ---> $PUSHER_SECRET"
-    - echo "測試群組變數 ---> $POSTGRES_URL_NO_SSL"
-    - echo "測試群組變數 ---> $POSTGRES_URL_NON_POOLING"
-    - echo "測試群組變數 ---> $POSTGRES_URL"
+# test:
+#   stage: test
+#   only:
+#     - master
+#   script:
+#     - echo "測試 dev build !!!"
+#     - echo "測試環境變數 ---> $POSTGRES_DATABASE"
+#     - echo "測試群組變數 ---> $PUSHER_SECRET"
+#     - echo "測試群組變數 ---> $POSTGRES_URL_NO_SSL"
+#     - echo "測試群組變數 ---> $POSTGRES_URL_NON_POOLING"
+#     - echo "測試群組變數 ---> $POSTGRES_URL"
     
-docker-login:
-  stage: dockerLogin
-  only:
-    - master
+# docker-login:
+#   stage: dockerLogin
+#   only:
+#     - master
+#   script:
+#     - echo "登入 Docker Hub"
+#     - echo "$DOCKER_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_USERNAME" --password-stdin
+#     - echo "推送鏡像到 Docker Hub"
+
+image: docker:latest
+
+services: 
+  - docker:dind
+
+build_and_push:
   script:
-    - echo "登入 Docker Hub"
-    - echo "$DOCKER_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_USERNAME" --password-stdin
-    - echo "推送鏡像到 Docker Hub"
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker-compose build
+    - docker-compose push
+  only:
+    -master  
