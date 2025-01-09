@@ -53,12 +53,14 @@ login:
   only:
     - master  
 build:
+  stage: build
   script:
     - docker-compose build
     - echo "Docker Build !!!"    
   only:
     - master 
 push:
+  stage: push
   script:
     - docker-compose push beast964089/vue-vite-demo-api-express:latest
     - echo "Docker Push !!!"
