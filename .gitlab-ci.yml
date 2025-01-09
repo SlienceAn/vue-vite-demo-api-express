@@ -2,6 +2,7 @@ stages:
   - build
   - deploy
   - test
+  - final
 
 dev-build:
   stage: build
@@ -23,3 +24,10 @@ dev-test:
     - master
   script:
     - echo "測試 dev testing !!!"
+    
+final-test:
+  stage: final
+  only:
+    - master
+  script:
+    - echo " CICD Final階段測試...."    
