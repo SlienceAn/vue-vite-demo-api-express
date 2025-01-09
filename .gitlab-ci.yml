@@ -9,8 +9,11 @@ dev-build:
     - master
   script:
     - echo "測試 dev build !!!"
-    - echo "測試環境變數 ---> $POSTGRES_DATABAS"
+    - echo "測試環境變數 ---> $POSTGRES_DATABASE"
     - echo "測試群組變數 ---> $PUSHER_SECRET"
+    - echo "測試群組變數 ---> $POSTGRES_URL_NO_SSL"
+    - echo "測試群組變數 ---> $POSTGRES_URL_NON_POOLING"
+    - echo "測試群組變數 ---> $POSTGRES_URL"
 
 dev-deploy:
   stage: deploy
@@ -18,6 +21,8 @@ dev-deploy:
     - master
   script:
     - echo "測試 dev deploy ***"
+    - echo "列出全部變數"
+    - printenv
 
 dev-test:
   stage: test
