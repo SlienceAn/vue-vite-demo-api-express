@@ -2,7 +2,6 @@ stages:
   - build
   - deploy
   - test
-  - final
 
 dev-build:
   stage: build
@@ -10,6 +9,8 @@ dev-build:
     - master
   script:
     - echo "測試 dev build !!!"
+    - echo "測試環境變數 ---> $POSTGRES_DATABAS"
+    - echo "測試群組變數 ---> $PUSHER_SECRET"
 
 dev-deploy:
   stage: deploy
@@ -24,10 +25,4 @@ dev-test:
     - master
   script:
     - echo "測試 dev testing !!!"
-    
-final-test:
-  stage: final
-  only:
-    - master
-  script:
-    - echo " CICD Final階段測試...."    
+  
