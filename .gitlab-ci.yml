@@ -62,7 +62,7 @@ build:
 push:
   stage: push
   script:
-    - docker-compose push beast964089/vue-vite-demo-api-express:latest
+    - docker push beast964089/vue-vite-demo-api-express:latest
     - echo "Docker Push !!!"
   only:
     - master
