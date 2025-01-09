@@ -54,3 +54,17 @@ login:
     - echo "Docker Push (推上Hub)"
   only:
     - master  
+build:
+  stage: build
+  script:
+    - docker-compose build
+    - echo "Docker Build !!!"    
+  only:
+    - master 
+push:
+  stage: push
+  script:
+    - docker-compose push
+    - echo "Docker Push !!!"
+  only:
+    - master
