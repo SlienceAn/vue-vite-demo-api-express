@@ -8,16 +8,12 @@ import { setNetwork } from './middleware/setNetwork'
 import { setClient } from './middleware/setClient'
 import { errorHandler } from './middleware/errorHandler'
 import router from './router/index'
-
 const app: Application = express();
-
 setClient(app)
 setNetwork(app)
 ConnectionDatabase()
-
 app.use('/', router)
 app.use(errorHandler);
-
 if (process.env.NODE_ENV === 'development') {
     if (process.env.PORT) {
         app.listen(parseInt(process.env.PORT), '0.0.0.0', () => console.log('Server is running'));
