@@ -57,6 +57,7 @@ login:
 build:
   stage: build
   script:
+    - docker images
     - docker-compose build
     - echo "Docker Build !!!"    
   only:
@@ -64,6 +65,7 @@ build:
 push:
   stage: push
   script:
+    - docker images
     - docker-compose push
     - echo "Docker Push !!!"
   only:
