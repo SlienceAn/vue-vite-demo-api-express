@@ -37,27 +37,17 @@ image: docker:latest
 services: 
   - docker:dind
 stages: 
-  - login
   - deploy
 
 variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
-
-login:
-  stage: deploy
-  script: 
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - echo "Docker Hub 登入" 
-    - docker-compose build
-    - echo "Docker Build (打包)"  
-    - docker push beast964089/vue-vite-demo-api-express:latest
-    - echo "Docker Push (推上Hub)"
-  only:
-    - master  
-build:
+ 
+deploy:
   stage: deploy
   script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "Docker Hub 登入"
     - docker images
     - docker-compose build
     - echo "Docker Build !!!"   
