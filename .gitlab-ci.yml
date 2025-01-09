@@ -9,6 +9,7 @@ dev-build:
     - master
   script:
     - echo "dev build !!!"
+
 dev-deploy:
   stage: deploy
   only:
@@ -18,7 +19,7 @@ dev-deploy:
 
 dev-test:
   stage: test
-    only:
-      - master
-script:
-  - echo "dev testing @@@!!!"    
+  only:
+    - master
+  script:
+    - echo "dev testing @@@!!!"
