@@ -1,33 +1,15 @@
-# FROM node:20-alpine
-
-# WORKDIR /usr/src/app
-
-# RUN npm install -g pnpm pm2 ts-node typescript
-
-# COPY package.json pnpm-lock.yaml ./
-
-# RUN pnpm install
-
-# COPY dist/ ./
-
-# EXPOSE 3000
-
-# CMD [ "pm2-runtime","src/app.js" ]
-
-
-
 FROM node:20-alpine
 
-WORKDIR /usr/src/app
-
 RUN npm install -g pnpm pm2 bun
+
+WORKDIR /usr/src/app
 
 COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install
 
-COPY . ./
+COPY dist ./dist
 
-RUN which bun
+ENV NODE_ENV=production
 
-CMD [ "pm2-runtime","src/app.ts" ]
+CMD ["pm2-runtime", "dist/server.js"]
