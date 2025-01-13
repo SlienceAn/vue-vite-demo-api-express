@@ -49,8 +49,8 @@ build:
   script: 
     - echo "Build Start !"
     - npm install -g pnpm
-    - pnpm install
-    - pnpm webpack
+    - pnpm install --prod
+    - pnpm build
   artifacts:
     paths:
       - dist/
