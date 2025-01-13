@@ -14,10 +14,10 @@ setNetwork(app)
 ConnectionDatabase()
 app.use('/', router)
 app.use(errorHandler);
-if (process.env.NODE_ENV === 'development') {
-    if (process.env.PORT) {
-        app.listen(parseInt(process.env.PORT), '0.0.0.0', () => console.log('Server is running'));
-    }
+
+if (process.env.PORT) {
+    app.listen(parseInt(process.env.PORT), '0.0.0.0', () => console.log('Server is running'));
 }
+
 
 export default app;
