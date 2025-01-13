@@ -1,6 +1,10 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
 import nodeExternals from 'webpack-node-externals'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const config: webpack.Configuration = {
     mode: 'production',
