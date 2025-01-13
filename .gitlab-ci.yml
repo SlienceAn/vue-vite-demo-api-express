@@ -32,7 +32,7 @@
 #     - echo "$DOCKER_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_USERNAME" --password-stdin
 #     - echo "推送鏡像到 Docker Hub"
 
-image: docker:latest
+image: node:latest
 
 services: 
   - docker:dind
@@ -55,6 +55,7 @@ build:
     paths:
       - dist/
 deploy:
+  image: docker:latest
   stage: deploy
   script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
