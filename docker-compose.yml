@@ -1,9 +1,9 @@
 services:
   # express應用服務
   app:
-    # build:
-    #   context: . # 指定 Dockerfile 所在的目錄
-    #   dockerfile: Dockerfile # 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
+    build:
+      context: . # 指定 Dockerfile 所在的目錄
+      dockerfile: Dockerfile # 指定要使用的 Dockerfile（如果名稱是 Dockerfile 可以省略這行）
     image: beast964089/vue-vite-demo-api-express:latest
     # 端口映射：主機端口:容器端口
     ports:
