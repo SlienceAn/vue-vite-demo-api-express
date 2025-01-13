@@ -61,3 +61,9 @@ export const loginOut = (req: Request, res: Response) => {
         message: '登出成功'
     })
 }
+export const testCICD = (req: Request, res: Response) => {
+    res.status(200).json({
+        success: true,
+        message: 'test CICD ~~~~'
+    })
+}
