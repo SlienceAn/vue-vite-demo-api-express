@@ -37,12 +37,23 @@ image: docker:latest
 services: 
   - docker:dind
 stages: 
+  - build
   - deploy
 
 variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
- 
+
+build:
+  stage: build
+  script: 
+    - echo "Build Start !"
+    - npm install -g pnpm
+    - pnpm install
+    - pnpm webpack
+  artifacts:
+    paths:
+      - dist/
 deploy:
   stage: deploy
   script:
