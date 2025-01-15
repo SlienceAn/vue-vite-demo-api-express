@@ -44,6 +44,10 @@ stages:
 variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - node_modules/
 
 build:
   stage: build
@@ -57,6 +61,32 @@ build:
       - dist/
   only:
     - master
+
+push:
+  stage: push
+  script:  
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    # git推送
+    - cd dist
+    - rm -rf .git
+    - git init
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME" 
+    - git remote add origin $DIST_REPO_URL
+    - git add -f .
+    - git commit -m "$CI_COMMIT_MESSAGE"
+    - git push -f origin master
+    # 成功後顯示訊息
+    - echo "🎉 Push 階段完成！"
+    - echo "📦 部署版本：$CI_COMMIT_SHA"
+    - echo "👤 部署者：$GITLAB_USER_NAME"
+    - echo "🕒 部署時間：$(date)"
+
 
 deploy:
   image: docker:latest

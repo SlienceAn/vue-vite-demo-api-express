@@ -23,7 +23,7 @@ const createUserTable = async () => {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           );
         `;
-        console.log('資料表建立成功');
+        console.log('資料表建立成功啦! 真的建立了');
     } catch (error) {
         console.error('建立資料表錯誤:', error);
     }
