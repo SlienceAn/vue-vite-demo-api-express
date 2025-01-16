@@ -1,5 +1,5 @@
 include:
-  - project: 'aiot_demo/CICD-template'
+  - project: 'AIOT_demo/CICD-template'
     ref: main
     file: '.gitlab-ci.yml' 
 
