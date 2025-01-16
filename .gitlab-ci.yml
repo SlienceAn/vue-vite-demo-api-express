@@ -38,6 +38,9 @@ build:
 push:
   stage: push
   extends: setup_ssh
+  needs:
+    - setup_ssh
+    - build
   dependencies:
     - build
   script:  
