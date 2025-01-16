@@ -10,7 +10,8 @@ module.exports = {
     entry: './src/app.ts',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'server.js'
+        filename: 'server.js',
+        clean: true
     },
     externals: [nodeExternals()],
     resolve: {
