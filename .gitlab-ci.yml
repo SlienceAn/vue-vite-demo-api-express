@@ -3,6 +3,7 @@ services:
 
 stages: 
   - build
+  - push
   - deploy
 
 variables:
@@ -31,6 +32,8 @@ build:
 
 push:
   stage: push
+  dependencies:
+    - build
   script:  
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
