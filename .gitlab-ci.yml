@@ -20,9 +20,9 @@ build:
   image: node:latest
   stage: build
   script: 
-    - echo "Build Start !"
+    - echo "webpack開始打包"
     - npm install -g pnpm
-    - pnpm install --prod
+    - pnpm install 
     - pnpm build
   artifacts:
     paths:
