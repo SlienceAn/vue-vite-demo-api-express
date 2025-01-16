@@ -42,6 +42,7 @@ push:
     - setup_ssh
     - build
   dependencies:
+    - setup_ssh
     - build
   script:  
     # git推送
