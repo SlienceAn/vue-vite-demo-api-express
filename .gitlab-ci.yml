@@ -37,15 +37,10 @@ build:
 
 push:
   stage: push
+  extends: setup_ssh
   dependencies:
     - build
   script:  
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
     # git推送
     - cd dist
     - rm -rf .git
