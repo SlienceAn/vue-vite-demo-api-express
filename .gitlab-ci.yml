@@ -80,7 +80,7 @@ push:
     - git remote add origin $DIST_REPO_URL
     - git add -f .
     - git commit -m "$CI_COMMIT_MESSAGE"
-    - git push -f origin master
+    - git push -f origin main
     # 成功後顯示訊息
     - echo "🎉 Push 階段完成！"
     - echo "📦 部署版本：$CI_COMMIT_SHA"
