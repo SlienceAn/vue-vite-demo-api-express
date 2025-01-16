@@ -1,39 +1,3 @@
-# stages:
-#   - test
-#   - dockerLogin
-
-# variables:
-#   DOCKER_REGISTRY: docker.io
-#   DOCKER_USERNAME: $DOCKERHUB_USERNAME 
-#   DOCKER_PASSWORD: $DOCKERHUB_PASSWORD  
-
-# before_script:
-#   - echo "列出全部變數"
-#   - printenv | sort
-
-# test:
-#   stage: test
-#   only:
-#     - master
-#   script:
-#     - echo "測試 dev build !!!"
-#     - echo "測試環境變數 ---> $POSTGRES_DATABASE"
-#     - echo "測試群組變數 ---> $PUSHER_SECRET"
-#     - echo "測試群組變數 ---> $POSTGRES_URL_NO_SSL"
-#     - echo "測試群組變數 ---> $POSTGRES_URL_NON_POOLING"
-#     - echo "測試群組變數 ---> $POSTGRES_URL"
-    
-# docker-login:
-#   stage: dockerLogin
-#   only:
-#     - master
-#   script:
-#     - echo "登入 Docker Hub"
-#     - echo "$DOCKER_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_USERNAME" --password-stdin
-#     - echo "推送鏡像到 Docker Hub"
-
-image: node:latest
-
 services: 
   - docker:dind
 
@@ -52,6 +16,7 @@ cache:
     - node_modules/  
 
 build:
+  image: node:latest
   stage: build
   script: 
     - echo "Build Start !"
@@ -63,6 +28,7 @@ build:
       - dist/
   only:
     - master
+
 push:
   stage: push
   script:  
@@ -83,7 +49,7 @@ push:
     - git commit -m "$CI_COMMIT_MESSAGE"
     - git push -f origin master:main
     # 成功後顯示訊息
-    - echo "🎉 Push 階段完成！"
+    - echo "🎉 Git push 階段完成！成功推至Dist"
     - echo "📦 部署版本：$CI_COMMIT_SHA"
     - echo "👤 部署者：$GITLAB_USER_NAME"
     - echo "🕒 部署時間：$(date)"
@@ -96,10 +62,7 @@ deploy:
     - echo "Docker Hub 登入"
     - docker images
     - docker-compose build
-    - echo "Docker Build (打包)" 
-    - echo "列出所有 Docker 映像："
     - docker images 
     - docker push beast964089/vue-vite-demo-api-express:latest
-    - echo "Docker Push (推上Hub)"
   only:
     - master 
