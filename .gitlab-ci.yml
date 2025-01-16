@@ -45,10 +45,10 @@ push:
     - setup_ssh
     - build
   script:  
-    - echo "檢查SSH檔案:"
-    - ls -la .ssh/
-    - ls -la
-    - pwd
+    # 告訴git使用當前目錄下的 SSH 私鑰
+    # -i：指定私鑰文件的位置，-o：設定 SSH 選項
+    # $PWD：當前工作目錄的完整路徑 
+    # UserKnownHostsFile：指定 known_hosts 文件位置
     - export GIT_SSH_COMMAND="ssh -i $PWD/.ssh/id_rsa -o UserKnownHostsFile=$PWD/.ssh/known_hosts"
     # git推送
     - cd dist
