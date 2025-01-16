@@ -45,6 +45,10 @@ push:
     - setup_ssh
     - build
   script:  
+    - echo "檢查SSH檔案:"
+    - ls -la .ssh/
+    - ls -la
+    - pwd
     # git推送
     - cd dist
     - rm -rf .git
