@@ -44,10 +44,12 @@ stages:
 variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
+  DIST_REPO_URL: git@gitlab.com:aiot_demo/vue-vite-demo-api-express-dist.git
+
 cache:
   key: $CI_COMMIT_REF_SLUG
   paths:
-    - node_modules/
+    - node_modules/  
 
 build:
   stage: build
@@ -61,7 +63,6 @@ build:
       - dist/
   only:
     - master
-
 push:
   stage: push
   script:  
@@ -86,7 +87,6 @@ push:
     - echo "📦 部署版本：$CI_COMMIT_SHA"
     - echo "👤 部署者：$GITLAB_USER_NAME"
     - echo "🕒 部署時間：$(date)"
-
 
 deploy:
   image: docker:latest
