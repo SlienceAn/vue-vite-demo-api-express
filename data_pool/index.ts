@@ -30,6 +30,15 @@ export default {
             }
         },
         {
+            path: '/Pixi',
+            name: 'Pixi',
+            meta: {
+                title: '平面圖設點(Test)',
+                icon: 'mti-DragClick',
+                hide: false
+            }
+        },
+        {
             path: '/Setting',
             name: 'Setting',
             meta: {
