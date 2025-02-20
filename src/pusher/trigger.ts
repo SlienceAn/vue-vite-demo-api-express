@@ -29,3 +29,12 @@ export const triggerUpdateUserList = async (func: () => Promise<any>) => {
         console.error('pusher error ', error)
     }
 }
+
+// pusher 取得稼動率資料
+export const triggerOperatingRate = () => {
+    try {
+        pusher.trigger('operating', 'update', 'H')
+    } catch (error) {
+        console.error('pusher error ', error)
+    }
+}

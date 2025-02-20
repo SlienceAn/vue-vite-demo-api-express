@@ -2,10 +2,11 @@ import { Request, Response } from 'express'
 import { createKysely } from '@vercel/postgres-kysely'
 import dataPool from '@data/index'
 import jwt from 'jsonwebtoken'
-import { triggerNotification } from '@/pusher/trigger'
+import { triggerNotification, triggerOperatingRate } from '@/pusher/trigger'
 
 let newsInterval: ReturnType<typeof setInterval>;
 let warningInterval: ReturnType<typeof setInterval>;
+let operatingInterval: ReturnType<typeof setInterval>
 
 export const login = async (req: Request, res: Response) => {
     const { account: acc, password: psw } = req.body
@@ -43,8 +44,9 @@ export const login = async (req: Request, res: Response) => {
                 usersname: users.username,
                 menu
             })
-            newsInterval = setInterval(() => triggerNotification('news'), 5000)
-            warningInterval = setInterval(() => triggerNotification('warning'), 10000)
+            // newsInterval = setInterval(() => triggerNotification('news'), 5000)
+            // warningInterval = setInterval(() => triggerNotification('warning'), 10000)
+            // operatingInterval = setInterval(() => triggerOperatingRate(), 3000)
         }
     } catch (error) {
         res.status(401).json({
@@ -54,16 +56,11 @@ export const login = async (req: Request, res: Response) => {
     }
 }
 export const loginOut = (req: Request, res: Response) => {
-    clearInterval(newsInterval)
-    clearInterval(warningInterval)
+    // clearInterval(newsInterval)
+    // clearInterval(warningInterval)
+    // clearInterval(operatingInterval)
     res.status(200).json({
         success: false,
         message: '登出成功'
-    })
-}
-export const testCICD = (req: Request, res: Response) => {
-    res.status(200).json({
-        success: true,
-        message: 'test CICD ~~~~'
     })
 }

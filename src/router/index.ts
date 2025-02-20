@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import connectionDatabase from '../../data_pool/database'
 import { allUser, addUser, modifyUser, deleteUser } from './controller/user'
-import { loginOut, login as loginUser, testCICD } from './controller/login'
+import { loginOut, login as loginUser } from './controller/login'
 import { device } from './controller/device'
 import { city } from './controller/city'
 import { info } from './controller/info'
@@ -22,7 +22,7 @@ router.get('/city', city)
 router.get('/device', device)
 router.get('/info', info)
 router.get('/search', search)
-router.get('/testCICD', testCICD)
+
 // table相關操作
 router.delete('/table/users', connectionDatabase.dropUserTable)
 router.post('/table/users', connectionDatabase.createUserTable)
