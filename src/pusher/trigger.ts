@@ -15,7 +15,7 @@ export const triggerNotification = (type: 'news' | 'warning') => {
             eventContent.title = '警告'
             eventContent.message = "警告測試,每10秒送一次"
         }
-        pusher.trigger('notification', 'update', eventContent)
+        pusher.trigger('private-notification', 'update', eventContent)
     } catch (error) {
         console.error('pusher error ', error)
     }
@@ -24,7 +24,7 @@ export const triggerNotification = (type: 'news' | 'warning') => {
 // pusher 取得最新使用者資料
 export const triggerUpdateUserList = async (func: () => Promise<any>) => {
     try {
-        pusher.trigger('setting', 'update', await func())
+        pusher.trigger('private-setting', 'update', await func())
     } catch (error) {
         console.error('pusher error ', error)
     }
@@ -33,7 +33,7 @@ export const triggerUpdateUserList = async (func: () => Promise<any>) => {
 // pusher 取得稼動率資料
 export const triggerOperatingRate = () => {
     try {
-        pusher.trigger('operating', 'update', 'H')
+        pusher.trigger('private-operating', 'update', 'H')
     } catch (error) {
         console.error('pusher error ', error)
     }
